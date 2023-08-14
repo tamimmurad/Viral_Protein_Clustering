@@ -58,17 +58,26 @@ last review Date: July 11th 2023
 """
 
 import pandas as pd
+import sys
+
+if len(sys.argv) != 3:
+    print("Usage: python process_clusters.py <clusters_file> <cluster_size_file>")
+    exit()
+    
+    
+clustersFile = sys.argv[1]
+clusterSizeFile = sys.argv[2]
 
 #Read clusters file into a dataframe. File is produced by MMSeq with cluster rep and cluster members.
-clustersDF = pd.read_table('vp_clusters_cluster.tsv')
+clustersDF = pd.read_table(clustersFile)
 clustersDF.columns=['Clus_Rep','Clus_Mem']
 
 #Read clusters stats file with cluster rep and the number of members in the cluster.
-df = pd.read_table('cluster_sizes.csv')
+df = pd.read_table(clusterSizeFile)
 df.columns=['ACCN', '#of members']
 
 #Get statistics of the clusters and plot a histogram of the data.
-df.plot(kind='hist', logy=True, bins=1000)
+df.plot(kind='hist', xlabel='Cluster Size',logx=True, logy=True, bins=5000,title='Histogram of Cluster Sizes (log)').figure.savefig('cluster_sizes_Hist.png')
 stat=df.describe()
 
 #Sort the clusters by the size.
@@ -126,4 +135,4 @@ for rep in newClusterReps['old_clus_rep']:
 
 print('###Number of clusters rep to be folded is: '+str(len(topClustersReps[topClustersReps['final_clus_rep'].str.contains('\.')])))
 #Write the top clusters dataframe into a tsv file.
-topClustersReps.to_csv('top_viral_protein_cluster_reps_ver.tsv',sep='\t')
+topClustersReps.to_csv('top_viral_protein_cluster_reps_.tsv',sep='\t')

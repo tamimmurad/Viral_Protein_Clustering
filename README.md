@@ -57,6 +57,7 @@ Seqkit is used to get statistics of the sequences with the following commands:
 
 With MMSeq2, the below command was run to get the clusters:
 
+
 	$mmseqs easy-cluster all_vira_sequences_formatted.fasta vp_clusters tmp --min-seq-id 0.3 -c 0.01 --cov-mode 3 --threads 36
 
 
@@ -71,8 +72,10 @@ The above command produced 3 files:
 
 Using the last file, a file with the number of members in each cluster was generated with the below bash command:
 
+
 	$cat vp_clusters_cluster.tsv | awk '{print $1}'|sort|uniq -c |awk '{print $2"\t"$1}'>cluster_sizes.csv
-  
+
+
 ### Selecting Top Clusters Representative with select_clus_reps.py
 
 A python script (select_clus_reps.py) was used to do the following:
@@ -82,8 +85,10 @@ A python script (select_clus_reps.py) was used to do the following:
 - Write the cluster reps in the file: top_viral_protein_cluster_reps.tsv. This resulted in 8956 refseq viral proteins to be folded. The remaining proteins are already determined (1014 PDB structures) or predicted in Alpha Fold DB (39 structures).
 - Finally, get the fasta sequences of the proteins to be folded by using the clustering results fasta file (linearized) with the below command:
 
-    $cat top_viral_protein_cluster_reps.tsv | awk '{print $4}'| grep '\.' |while read accn ;  do cat vp_clusters_rep_seq.fasta | grep -A1 -m 1 $accn >> top_cluster_reps_to_fold.fasta ; done 
 
-![Alt text](cluster_size_hist_log.png "Histogram of Clusters Sizes")
+    $cat top_viral_protein_cluster_reps.tsv | awk '{print $4}'| grep '\.' |while read accn ;  do cat vp_clusters_rep_seq.fasta | grep -A1 -m 1 $accn >> top_cluster_reps_to_fold.fasta ;done
+    
+
+![Alt text](cluster_sizes_Hist.png "Histogram of Clusters Sizes")
 
 
