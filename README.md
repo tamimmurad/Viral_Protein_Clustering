@@ -87,7 +87,7 @@ A python script (select_clus_reps.py) was used to do the following:
 
 
     $cat top_viral_protein_cluster_reps.tsv | awk '{print $4}'| grep '\.' |while read accn ;  do cat vp_clusters_rep_seq.fasta | grep -A1 -m 1 $accn >> top_cluster_reps_to_fold.fasta ;done
-    
+
 
 ![Alt text](cluster_sizes_Hist.png "Histogram of Clusters Sizes")
 
